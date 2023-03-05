@@ -29,7 +29,7 @@ class ImageViewController: UIViewController {
     private var imageView : UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .lightGray
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
         imageView.isUserInteractionEnabled = true
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +84,7 @@ class ImageViewController: UIViewController {
         self.view.backgroundColor = .lightGray
         scrollView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         self.view.addSubview(scrollView)
-        
+    
         scrollView.addSubview(imageView)
         
         activityIndicatior.center = self.view.center
@@ -105,7 +105,7 @@ class ImageViewController: UIViewController {
         self.dataService.fetchImage(urlString: urlString) { image, error in
             self.activityIndicatior.stopAnimating()
             guard let image = image else {
-                self.imageView.image = UIImage(systemName: "photo")
+                self.imageView.image = UIImage(named: "placeholder")
                 self.getErrorMessage(error: error)
                 return
             }

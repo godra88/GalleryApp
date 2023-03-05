@@ -12,11 +12,7 @@ class GalleryViewController: UIViewController {
     // MARK: Properties
     
     private let dataService: DataFetching
-    var albums: [Photo] = [] {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
+    var albums: [Photo] = []
     var photoCount = 0 {
         didSet {
             collectionView.reloadData()
@@ -165,6 +161,7 @@ class GalleryViewController: UIViewController {
             self.albums.removeAll()
             self.photoCount = 0
             self.titleLabel.isHidden = false
+            self.collectionView.reloadData()
         case .none:
             break
         }
@@ -207,7 +204,7 @@ extension GalleryViewController: UICollectionViewDataSource {
                 cell?.setup(image:  nil)
                 return cell ?? UICollectionViewCell()
             }
-            cell?.setup(image: UIImage(data: imageData) ?? UIImage(systemName: "photo"))
+            cell?.setup(image: UIImage(data: imageData) ?? UIImage(named: "placeholder"))
         }
         return cell ?? UICollectionViewCell()
     }
