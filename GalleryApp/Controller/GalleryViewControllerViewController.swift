@@ -18,7 +18,6 @@ class GalleryViewController: UIViewController {
             collectionView.reloadData()
         }
     }
-    private var reachability: Reachability?
     
     private var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -68,14 +67,14 @@ class GalleryViewController: UIViewController {
         collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         
         setViews()
-        handleNetworkReachability()
+        
+        NotificationCenter.default.addObserver(self, selector:#selector(self.reachabilityChanged), name: NSNotification.Name.reachabilityChanged, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        reachability?.stopNotifier()
-        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: nil)
     }
     
     // MARK: Methods
@@ -140,17 +139,6 @@ class GalleryViewController: UIViewController {
         collectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
     }
     
-    private func handleNetworkReachability() {
-        NotificationCenter.default.addObserver(self, selector:#selector(self.reachabilityChanged), name: NSNotification.Name.reachabilityChanged, object: nil)
-        do {
-            reachability = try Reachability()
-            try self.reachability?.startNotifier()
-        }
-        catch(let error) {
-            showAlert(title: String(localized: "alertWarning"), message: error.localizedDescription)
-        }
-    }
-    
     @objc func reachabilityChanged(note: Notification) {
         let reachability = note.object as? Reachability
         switch reachability?.connection {
@@ -162,6 +150,7 @@ class GalleryViewController: UIViewController {
             self.photoCount = 0
             self.titleLabel.isHidden = false
             self.collectionView.reloadData()
+            self.collectionView.refreshControl?.endRefreshing()
         case .none:
             break
         }
