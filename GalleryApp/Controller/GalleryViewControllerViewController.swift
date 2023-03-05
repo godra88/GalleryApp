@@ -12,8 +12,16 @@ class GalleryViewController: UIViewController {
     // MARK: Properties
     
     private let dataService: DataFetching
-    var albums: [Photo] = []
-    var photoCount = 0
+    var albums: [Photo] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    var photoCount = 0 {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     private var reachability: Reachability?
     
     private var collectionView: UICollectionView = {
@@ -82,7 +90,6 @@ class GalleryViewController: UIViewController {
             self.albums.removeAll()
             self.photoCount = 0
             self.collectionView.refreshControl?.endRefreshing()
-            self.collectionView.reloadData()
         }
         dataService.fetchGallery(isFirstTimeLoad: isFirstTimeLoad) { [weak self] albums, error in
             guard let self = self else { return }
@@ -95,7 +102,6 @@ class GalleryViewController: UIViewController {
             }
             
             self.photoCount += albums.count
-            self.collectionView.reloadData()
             
             self.fetchImages(albums: albums)
         }
@@ -158,7 +164,6 @@ class GalleryViewController: UIViewController {
         case .unavailable:
             self.albums.removeAll()
             self.photoCount = 0
-            self.collectionView.reloadData()
             self.titleLabel.isHidden = false
         case .none:
             break
