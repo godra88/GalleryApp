@@ -11,7 +11,7 @@ import UIKit
 class GalleryCollectionViewCell: UICollectionViewCell {
     // MARK: Properties
     
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = .gray
@@ -21,7 +21,7 @@ class GalleryCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    let activityIndicatior: UIActivityIndicatorView = {
+    private let activityIndicatior: UIActivityIndicatorView = {
         let activityIndicatior = UIActivityIndicatorView(style: .medium)
         activityIndicatior.startAnimating()
         return activityIndicatior
@@ -41,7 +41,7 @@ class GalleryCollectionViewCell: UICollectionViewCell {
     
     // MARK: Setup
     
-    func setup(image: UIImage?) {
+    public func setup(image: UIImage?) {
         if image != nil {
             imageView.image = image
             activityIndicatior.stopAnimating()

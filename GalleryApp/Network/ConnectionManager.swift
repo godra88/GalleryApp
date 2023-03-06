@@ -7,12 +7,11 @@
 
 import Foundation
 
-class ConnectionManager {
+public class ConnectionManager {
+    public static let shared = ConnectionManager()
+    private var reachability: Reachability?
     
-    static let sharedInstance = ConnectionManager()
-    private var reachability : Reachability?
-    
-    func observeReachability() {
+    public func observeReachability() {
         do {
             self.reachability = try Reachability()
             try self.reachability?.startNotifier()
@@ -21,7 +20,7 @@ class ConnectionManager {
             print("Error occured while starting reachability notifications : \(error.localizedDescription)")
         }
     }
-    func stopObservingReachability() {
+    public func stopObservingReachability() {
         reachability?.stopNotifier()
     }
 }

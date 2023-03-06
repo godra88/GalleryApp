@@ -12,8 +12,8 @@ class GalleryViewController: UIViewController {
     // MARK: Properties
     
     private let dataService: DataFetching
-    var albums: [Photo] = []
-    var photoCount = 0 {
+    public var albums: [Photo] = []
+    public var photoCount = 0 {
         didSet {
             collectionView.reloadData()
         }
@@ -79,7 +79,7 @@ class GalleryViewController: UIViewController {
     
     // MARK: Methods
     
-    func fetchData(isFirstTimeLoad: Bool) {
+    public func fetchData(isFirstTimeLoad: Bool) {
         if isFirstTimeLoad {
             self.activityIndicatior.startAnimating()
             self.albums.removeAll()
