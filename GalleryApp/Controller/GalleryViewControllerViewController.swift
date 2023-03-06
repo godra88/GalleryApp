@@ -12,7 +12,11 @@ class GalleryViewController: UIViewController {
     // MARK: Properties
     
     private let dataService: DataFetching
-    public var albums: [Photo] = []
+    public var albums: [Photo] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     public var photoCount = 0 {
         didSet {
             collectionView.reloadData()
@@ -74,11 +78,12 @@ class GalleryViewController: UIViewController {
     // MARK: Methods
     
     public func fetchData(isFirstTimeLoad: Bool) {
+        if isFirstTimeLoad {
+            self.activityIndicatior.startAnimating()
+        }
         dataService.fetchGallery(isFirstTimeLoad: isFirstTimeLoad) { [weak self] albums, error in
             guard let self = self else { return }
             if isFirstTimeLoad {
-                self.activityIndicatior.startAnimating()
-                self.collectionView.refreshControl?.endRefreshing()
                 self.albums.removeAll()
                 self.photoCount = 0
             }
@@ -90,6 +95,9 @@ class GalleryViewController: UIViewController {
                 return
             }
             self.photoCount += albums.count
+            if self.photoCount != 0 && isFirstTimeLoad {
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+            }
             
             self.fetchImages(albums: albums)
         }
@@ -142,7 +150,6 @@ class GalleryViewController: UIViewController {
             self.albums.removeAll()
             self.photoCount = 0
             self.titleLabel.isHidden = false
-            self.collectionView.reloadData()
             self.collectionView.refreshControl?.endRefreshing()
         case .none:
             break
