@@ -116,7 +116,6 @@ class GalleryViewController: UIViewController {
                                          url: photo.url,
                                          thumbnailUrl:photo.thumbnailUrl,
                                          image: image))
-                self.collectionView.reloadData()
             }
         }
     }
