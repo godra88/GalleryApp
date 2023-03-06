@@ -20,6 +20,7 @@ public class ConnectionManager {
             print("Error occured while starting reachability notifications : \(error.localizedDescription)")
         }
     }
+    
     public func stopObservingReachability() {
         reachability?.stopNotifier()
     }
