@@ -7,7 +7,7 @@
 
 import Foundation
 
-class App {
+public class App {
     static var baseUrl = "https://jsonplaceholder.typicode.com"
     static var galleryCell = "galleryCell"
 }
