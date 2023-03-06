@@ -71,12 +71,6 @@ class GalleryViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector:#selector(self.reachabilityChanged), name: NSNotification.Name.reachabilityChanged, object: nil)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: nil)
-    }
-    
     // MARK: Methods
     
     public func fetchData(isFirstTimeLoad: Bool) {
